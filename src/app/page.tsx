@@ -218,164 +218,56 @@ export default function LandingPage() {
 
       <Header />
 
-      {/* ── Hero Section (Split-Screen Layout) ────────────────────────────────── */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center py-16 px-4 sm:px-6 lg:px-8 z-10">
-        <div className="mx-auto max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* ── Hero Section (Centered Layout) ────────────────────────────────── */}
+      <section className="relative min-h-[85vh] flex flex-col justify-center py-16 px-4 sm:px-6 lg:px-8 z-10">
+        <div className="mx-auto max-w-4xl w-full text-center space-y-6 relative">
           
-          {/* Hero Left: Heading & Call to Action */}
-          <div className="space-y-6 text-left">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black tracking-widest bg-[#00C9A7]/10 text-[#00C9A7] border border-[#00C9A7]/20 uppercase">
-                Admissions Open 2026-27
-              </span>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-black tracking-widest bg-[#00C9A7]/10 text-[#00C9A7] border border-[#00C9A7]/20 uppercase">
+              Admissions Open 2026-27
+            </span>
+          </motion.div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.05]"
-            >
-              Shape Your Future with <span className="text-primary-gradient">RGUSAT 2026</span>
-            </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1]"
+          >
+            Shape Your Future with <span className="text-primary-gradient">RGUSAT 2026</span>
+          </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-base sm:text-lg text-slate-500 max-w-xl leading-relaxed"
-            >
-              Rathinam Global University Scholastic Aptitude Test (RGUSAT) 2026 is your gateway to world-class education. Secure your admissions, qualify for up to 100% merit scholarships, book flexible exam slots, and practice with advanced proctored mock assessments.
-            </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto leading-relaxed"
+          >
+            Rathinam Global University Scholastic Aptitude Test (RGUSAT) 2026 is your gateway to world-class education. Secure your admissions, qualify for up to 100% merit scholarships, book flexible exam slots, and practice with advanced proctored mock assessments.
+          </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center gap-4 pt-4"
-            >
-              <Link href="/apply" className="w-full sm:w-auto">
-                <Button size="lg" className="w-full sm:w-auto h-13 px-8 rounded-2xl text-sm font-bold shadow-lg shadow-[#00C9A7]/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-[#00C9A7] to-[#00B4FF] text-white border-transparent">
-                  Apply Online Now
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link href="/login" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-13 px-8 rounded-2xl text-sm font-bold border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all">
-                  Student Portal
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* Hero Right: Interactive Visual & Floating Cards */}
-          <div className="relative h-[480px] sm:h-[520px] lg:h-[600px] flex items-center justify-center">
-            {/* Dashed Orbits */}
-            <div className="absolute w-[350px] sm:w-[450px] aspect-square rounded-full border border-dashed border-slate-200 animate-[spin_60s_linear_infinite]" />
-            <div className="absolute w-[240px] sm:w-[300px] aspect-square rounded-full border border-slate-100 animate-[spin_30s_linear_infinite_reverse]" />
-            
-            {/* Dashboard Mock Container */}
-            <div className="relative z-10 w-full max-w-[340px] sm:max-w-[380px] aspect-[4/5] bg-white/70 backdrop-blur-xl border border-white/80 rounded-3xl shadow-2xl p-6 flex flex-col justify-between">
-              <div className="flex justify-between items-center pb-4 border-b border-slate-100/60">
-                <div className="flex gap-2">
-                  <span className="w-3 h-3 rounded-full bg-rose-500" />
-                  <span className="w-3 h-3 rounded-full bg-amber-500" />
-                  <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                </div>
-                <span className="text-[9px] font-black tracking-widest text-slate-400 uppercase">RGUSAT Secure Console</span>
-              </div>
-              
-              {/* Mock WebRTC Proctor Monitor */}
-              <div className="flex-1 flex flex-col justify-center items-center py-6 text-center space-y-4">
-                <div className="relative">
-                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-slate-900 overflow-hidden relative flex items-center justify-center shadow-lg border border-slate-800">
-                    <GraduationCap className="h-10 w-10 text-white animate-pulse" />
-                    {/* Scanning animation line */}
-                    <div className="absolute inset-0 border border-primary-teal/10 pointer-events-none overflow-hidden">
-                      <div className="w-full h-0.5 bg-primary-teal/40 absolute top-0 animate-scan" />
-                    </div>
-                  </div>
-                  <span className="absolute -top-2 -right-2 px-2.5 py-0.5 bg-emerald-500 text-white rounded-lg text-[9px] font-black uppercase tracking-wider shadow-md">
-                    AI PROCTOR ACTIVE
-                  </span>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-slate-800">Candidate verification matching...</h4>
-                  <p className="text-[10px] text-slate-400 font-semibold mt-1">Camera and display tracking confirmed.</p>
-                </div>
-              </div>
-              
-              <div className="pt-4 border-t border-slate-100/60 flex items-center justify-between text-[10px] font-black text-slate-400 uppercase">
-                <span>Placement: 98.7%</span>
-                <span className="text-primary-teal animate-pulse">● System Secure</span>
-              </div>
-            </div>
-
-            {/* Floating Cards */}
-            {/* Card 1: 🎓 Up to 100% Scholarship */}
-            <motion.div
-              animate={{ y: [0, -10, 0], x: [0, 6, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-              className="absolute top-12 left-0 sm:left-4 z-20 glass-card px-4 py-3 flex items-center gap-3 border border-white/60 shadow-lg"
-            >
-              <div className="p-2 bg-gradient-to-tr from-[#00C9A7] to-[#00B4FF] text-white rounded-xl text-xs shadow-sm">
-                🎓
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Scholarship</p>
-                <p className="text-[11px] font-bold text-slate-800 mt-1">Up to 100% Merit</p>
-              </div>
-            </motion.div>
-
-            {/* Card 2: 🏆 NAAC Accredited */}
-            <motion.div
-              animate={{ y: [0, 8, 0], x: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 1 }}
-              className="absolute top-24 right-0 sm:right-4 z-20 glass-card px-4 py-3 flex items-center gap-3 border border-white/60 shadow-lg"
-            >
-              <div className="p-2 bg-gradient-to-tr from-[#7C3AED] to-pink-500 text-white rounded-xl text-xs shadow-sm">
-                🏆
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Accredited</p>
-                <p className="text-[11px] font-bold text-slate-800 mt-1">NAAC Grade A++</p>
-              </div>
-            </motion.div>
-
-            {/* Card 3: 📚 50+ Programs */}
-            <motion.div
-              animate={{ y: [0, -8, 0], x: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 7, ease: "easeInOut", delay: 0.5 }}
-              className="absolute bottom-12 left-4 sm:left-10 z-20 glass-card px-4 py-3 flex items-center gap-3 border border-white/60 shadow-lg"
-            >
-              <div className="p-2 bg-gradient-to-tr from-[#00B4FF] to-[#00C9A7] text-white rounded-xl text-xs shadow-sm">
-                📚
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Programs</p>
-                <p className="text-[11px] font-bold text-slate-800 mt-1">50+ Global Options</p>
-              </div>
-            </motion.div>
-
-            {/* Card 4: 👨‍🎓 25,000+ Students */}
-            <motion.div
-              animate={{ y: [0, 10, 0], x: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 8, ease: "easeInOut", delay: 1.5 }}
-              className="absolute bottom-20 right-4 sm:right-10 z-20 glass-card px-4 py-3 flex items-center gap-3 border border-white/60 shadow-lg"
-            >
-              <div className="p-2 bg-gradient-to-tr from-amber-500 to-orange-500 text-white rounded-xl text-xs shadow-sm">
-                👨‍🎓
-              </div>
-              <div className="text-left">
-                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Takers</p>
-                <p className="text-[11px] font-bold text-slate-800 mt-1">25,000+ Registered</p>
-              </div>
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+          >
+            <Link href="/apply" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto h-13 px-8 rounded-2xl text-sm font-bold shadow-lg shadow-[#00C9A7]/20 hover:scale-[1.02] active:scale-[0.98] transition-all bg-gradient-to-r from-[#00C9A7] to-[#00B4FF] text-white border-transparent">
+                Apply Online Now
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+            <Link href="/login" className="w-full sm:w-auto">
+              <Button variant="outline" size="lg" className="w-full sm:w-auto h-13 px-8 rounded-2xl text-sm font-bold border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all">
+                Student Portal
+              </Button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
