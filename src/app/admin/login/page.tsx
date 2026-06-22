@@ -63,35 +63,50 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div
-      className="relative min-h-screen flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8"
-      style={{
-        background: "linear-gradient(135deg, #f0fdfa 0%, #e0f7fa 40%, #b2ebf2 70%, #e0f2fe 100%)",
-      }}
-    >
-      {/* Decorative background blobs */}
+    <div className="relative min-h-screen bg-[#F8FAFC] flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <style>{`
+        @keyframes gridMoveAdmin {
+          from { background-position: 0 0; }
+          to { background-position: 40px 40px; }
+        }
+        .animate-grid-admin {
+          animation: gridMoveAdmin 6s linear infinite;
+        }
+      `}</style>
+
+      {/* Moving Grid Background */}
       <div
-        className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #0d9488, transparent)" }}
-      />
-      <div
-        className="absolute bottom-0 right-0 w-80 h-80 rounded-full opacity-15 blur-3xl pointer-events-none"
-        style={{ background: "radial-gradient(circle, #0891b2, transparent)" }}
+        className="absolute inset-0 pointer-events-none z-0 animate-grid-admin"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(0, 160, 220, 0.22) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0, 190, 155, 0.22) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }}
       />
 
+      {/* Sprayed Gradient Glows */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00C9A7]/12 blur-[130px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#00B4FF]/12 blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-[30%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#00C9A7]/8 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-[20%] left-[-5%] w-[45%] h-[45%] rounded-full bg-[#00B4FF]/10 blur-[130px] pointer-events-none z-0" />
+
       {/* Return to Website */}
-      <Link href="/" className="absolute top-6 left-6 inline-flex items-center text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors group">
+      <Link href="/" className="absolute top-6 left-6 inline-flex items-center text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors group z-10">
         <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
         Back to Website
       </Link>
 
       {/* Logo & Title */}
-      <div className="mb-8 flex flex-col items-center">
-        <div
-          className="p-4 text-white shadow-lg mb-4 rounded-2xl"
-          style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)" }}
-        >
-          <GraduationCap className="h-9 w-9" />
+      <div className="mb-8 flex flex-col items-center relative z-10">
+        <div className="mb-4">
+          <img
+            src="/logo.jpg"
+            alt="Rathinam Global University"
+            className="h-14 w-auto object-contain mx-auto"
+            style={{ mixBlendMode: "multiply" }}
+          />
         </div>
         <h2 className="text-3xl font-extrabold text-teal-900 tracking-tight text-center">
           RGUSAT Admin Portal

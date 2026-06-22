@@ -63,10 +63,22 @@ function PaymentContent() {
       return;
     }
 
+    let cancelled = false;
+
     const fetchApp = async () => {
+      // Timeout safety — don't hang forever
+      const timeoutId = setTimeout(() => {
+        if (!cancelled) {
+          setLoadingApp(false);
+          toast.error("Connection timed out. Please refresh and try again.");
+        }
+      }, 8000);
+
       try {
         const appRef = doc(db, "applications", appId);
         const appSnap = await getDoc(appRef);
+        clearTimeout(timeoutId);
+        if (cancelled) return;
         if (appSnap.exists()) {
           const data = appSnap.data() as ApplicationDetails;
           if (data.paymentStatus === "paid") {
@@ -79,14 +91,18 @@ function PaymentContent() {
           toast.error("Application not found.");
         }
       } catch (error) {
-        console.error("Error fetching application:", error);
-        toast.error("Error loading application details.");
+        clearTimeout(timeoutId);
+        if (!cancelled) {
+          console.error("Error fetching application:", error);
+          toast.error("Error loading application details. Check your connection.");
+        }
       } finally {
-        setLoadingApp(false);
+        if (!cancelled) setLoadingApp(false);
       }
     };
 
     fetchApp();
+    return () => { cancelled = true; };
   }, [appId, router]);
 
   const handleCardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,9 +250,10 @@ function PaymentContent() {
 
   if (loadingApp) {
     return (
-      <div className="flex flex-col items-center justify-center p-12">
+      <div className="flex flex-col items-center justify-center p-12 min-h-[300px]">
         <Loader2 className="h-10 w-10 animate-spin text-primary-teal" />
         <p className="text-sm text-slate-500 font-semibold mt-4">Verifying application details...</p>
+        <p className="text-xs text-slate-400 mt-2">This may take a few seconds</p>
       </div>
     );
   }
@@ -505,7 +522,7 @@ export default function PaymentPage() {
           <CreditCard className="h-8 w-8" />
         </div>
         <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight text-center">
-          Payment & Account Activation
+          Payment &amp; Account Activation
         </h2>
         <p className="text-sm text-slate-500 font-medium mt-1">
           Complete payment of ₹999 to configure your student profile credentials
@@ -514,7 +531,7 @@ export default function PaymentPage() {
 
       <div className="w-full max-w-4xl relative z-10">
         <Suspense fallback={
-          <div className="flex flex-col items-center justify-center p-12">
+          <div className="flex flex-col items-center justify-center p-12 min-h-[300px]">
             <Loader2 className="h-10 w-10 animate-spin text-primary-teal" />
             <p className="text-sm text-slate-500 font-semibold mt-4">Loading checkout system...</p>
           </div>

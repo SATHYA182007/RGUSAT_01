@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { db } from "@/lib/firebase";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { logActivity } from "@/services/activityLogger";
@@ -178,59 +179,103 @@ export default function ApplyPage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-slate-50/50 flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
-      {/* Background glow effects */}
-      <div className="glow-bg w-[300px] h-[300px] bg-primary-teal/10 top-10 left-10" />
-      <div className="glow-bg w-[300px] h-[300px] bg-primary-sky/10 bottom-10 right-10" />
+    <div className="relative h-screen bg-[#F8FAFC] flex flex-col justify-center items-center py-4 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <style>{`
+        @keyframes gridMove {
+          from {
+            background-position: 0 0;
+          }
+          to {
+            background-position: 40px 40px;
+          }
+        }
+        .animate-grid-move {
+          animation: gridMove 6s linear infinite;
+        }
+      `}</style>
+
+      {/* Moving Grid Background */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-0 animate-grid-move" 
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(0, 160, 220, 0.22) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(0, 190, 155, 0.22) 1px, transparent 1px)
+          `,
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      {/* Return to Website */}
+      <Link href="/" className="absolute top-6 left-6 inline-flex items-center text-sm font-semibold text-teal-600 hover:text-teal-800 transition-colors group z-10">
+        <ArrowLeft className="mr-2 h-4 w-4 group-hover:-translate-x-0.5 transition-transform" />
+        Back to Website
+      </Link>
+
+      {/* Sprayed Gradient Glows (Teal & Sky Blue) */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#00C9A7]/12 blur-[130px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#00B4FF]/12 blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-[30%] right-[-5%] w-[40%] h-[40%] rounded-full bg-[#00C9A7]/8 blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-[20%] left-[-5%] w-[45%] h-[45%] rounded-full bg-[#00B4FF]/10 blur-[130px] pointer-events-none z-0" />
 
       {/* Header Branding */}
-      <div className="mb-8 flex flex-col items-center">
-        <div className="p-3 bg-gradient-to-tr from-primary-teal to-primary-sky rounded-2xl text-white shadow-md mb-3">
-          <GraduationCap className="h-8 w-8" />
+      <div className="mb-4 flex flex-col items-center">
+        <div className="mb-2">
+          <img
+            src="/logo.jpg"
+            alt="Rathinam Global University"
+            className="h-10 w-auto object-contain mx-auto"
+            style={{ mixBlendMode: "multiply" }}
+          />
         </div>
-        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight text-center">
+        <h2 className="text-xl font-extrabold text-slate-900 tracking-tight text-center">
           Rathinam Global Admissions 2026
         </h2>
-        <p className="text-sm text-slate-500 font-medium mt-1">
+        <p className="text-xs text-teal-600 font-medium mt-0.5">
           Complete the 4-step admission application form
         </p>
       </div>
 
       <div className="w-full max-w-2xl relative z-10">
         {/* Step Indicator Panel */}
-        <div className="glass-card px-6 py-4 mb-6 flex justify-between items-center gap-2 overflow-x-auto no-scrollbar">
-          {stepsList.map((s) => {
-            const Icon = s.icon;
+        <div className="bg-white/90 backdrop-blur-md border border-white/70 shadow-lg shadow-teal-500/5 rounded-3xl px-4 py-2.5 mb-3 flex items-center w-full justify-between">
+          {stepsList.map((s, idx) => {
             const isActive = step === s.id;
             const isCompleted = step > s.id;
             return (
-              <div key={s.id} className="flex items-center space-x-2 shrink-0">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
-                    isActive
-                      ? "btn-primary-gradient text-white scale-110 shadow-md"
-                      : isCompleted
-                      ? "bg-emerald-500 text-white"
-                      : "bg-slate-100 text-slate-400"
-                  }`}
-                >
-                  {isCompleted ? <CheckCircle2 className="h-4.5 w-4.5" /> : s.id}
+              <Fragment key={s.id}>
+                {/* Step pill */}
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
+                      isActive
+                        ? "btn-primary-gradient text-white scale-110 shadow-md"
+                        : isCompleted
+                        ? "bg-emerald-500 text-white"
+                        : "bg-slate-100 text-slate-400"
+                    }`}
+                  >
+                    {isCompleted ? <CheckCircle2 className="h-4 w-4" /> : s.id}
+                  </div>
+                  <span
+                    className={`text-[11px] sm:text-xs font-semibold leading-tight transition-colors duration-300 whitespace-nowrap ${
+                      isActive ? "text-slate-900" : isCompleted ? "text-emerald-600" : "text-slate-400"
+                    }`}
+                  >
+                    {s.title}
+                  </span>
                 </div>
-                <span
-                  className={`text-xs font-bold transition-colors duration-300 ${
-                    isActive ? "text-slate-900 font-semibold" : "text-slate-400 font-medium"
-                  }`}
-                >
-                  {s.title}
-                </span>
-                {s.id !== 4 && <div className="h-0.5 w-4 bg-slate-200 hidden sm:block" />}
-              </div>
+                {/* Connector line — shown between steps, not after the last */}
+                {idx < stepsList.length - 1 && (
+                  <div className="flex-1 mx-2 h-0.5 rounded-full bg-slate-200 min-w-[8px]" />
+                )}
+              </Fragment>
             );
           })}
         </div>
 
         {/* Form Content Card */}
-        <Card className="border border-slate-100 shadow-xl shadow-slate-100/30">
+        <Card className="border border-white/60 shadow-2xl shadow-teal-500/5 bg-white/90 backdrop-blur-md">
           <CardHeader>
             <CardTitle>{stepsList[step - 1].title}</CardTitle>
             <CardDescription>
@@ -241,7 +286,7 @@ export default function ApplyPage() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="min-h-[300px]">
+          <CardContent className="min-h-[220px]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={step}
@@ -478,7 +523,10 @@ export default function ApplyPage() {
                 Back
               </Button>
             ) : (
-              <div />
+              <Button variant="outline" onClick={() => router.push("/")} disabled={loading} className="rounded-xl font-semibold gap-1.5">
+                <ArrowLeft className="h-4 w-4" />
+                Back
+              </Button>
             )}
 
             {step < 4 ? (
