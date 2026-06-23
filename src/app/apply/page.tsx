@@ -4,6 +4,7 @@ import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { db } from "@/lib/firebase";
+import { statesData } from "@/lib/india_locations";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { logActivity } from "@/services/activityLogger";
 import { sendNotification } from "@/services/notificationService";
@@ -29,6 +30,8 @@ export default function ApplyPage() {
     phone: "",
     dob: "",
     gender: "",
+    state: "",
+    city: "",
     // Step 2
     schoolName: "",
     board: "",
@@ -55,6 +58,8 @@ export default function ApplyPage() {
       }
       if (!formData.dob) newErrors.dob = "Date of Birth is required";
       if (!formData.gender) newErrors.gender = "Gender is required";
+      if (!formData.state) newErrors.state = "State is required";
+      if (!formData.city) newErrors.city = "City is required";
     } else if (step === 2) {
       if (!formData.schoolName.trim()) newErrors.schoolName = "School Name is required";
       if (!formData.board) newErrors.board = "Educational Board is required";
@@ -88,12 +93,21 @@ export default function ApplyPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      if (name === "state") {
+        updated.city = ""; // Reset city when state changes
+      }
+      return updated;
+    });
     // Clear error
     if (errors[name]) {
       setErrors((prev) => {
         const updated = { ...prev };
         delete updated[name];
+        if (name === "state") {
+          delete updated.city;
+        }
         return updated;
       });
     }
@@ -115,6 +129,8 @@ export default function ApplyPage() {
           phone: formData.phone,
           dob: formData.dob,
           gender: formData.gender,
+          state: formData.state,
+          city: formData.city,
         },
         academicInfo: {
           schoolName: formData.schoolName,
@@ -374,6 +390,47 @@ export default function ApplyPage() {
                       />
                       {errors.gender && <p className="text-xs text-rose-500 font-medium">{errors.gender}</p>}
                     </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="state">State *</Label>
+                        <Select
+                          id="state"
+                          name="state"
+                          placeholder="Select State"
+                          value={formData.state}
+                          onChange={handleChange}
+                          options={Object.keys(statesData).map((st) => ({
+                            value: st,
+                            label: st,
+                          }))}
+                          className={errors.state ? "border-rose-500" : ""}
+                        />
+                        {errors.state && <p className="text-xs text-rose-500 font-medium">{errors.state}</p>}
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="city">City *</Label>
+                        <Select
+                          id="city"
+                          name="city"
+                          placeholder={formData.state ? "Select City" : "Choose a state first"}
+                          value={formData.city}
+                          onChange={handleChange}
+                          disabled={!formData.state}
+                          options={
+                            formData.state
+                              ? Array.from(new Set(statesData[formData.state as keyof typeof statesData] || [])).map((ct) => ({
+                                  value: ct,
+                                  label: ct,
+                                }))
+                              : []
+                          }
+                          className={errors.city ? "border-rose-500" : ""}
+                        />
+                        {errors.city && <p className="text-xs text-rose-500 font-medium">{errors.city}</p>}
+                      </div>
+                    </div>
                   </>
                 )}
 
@@ -477,6 +534,10 @@ export default function ApplyPage() {
                           <span className="text-slate-800 font-semibold">{formData.dob}</span>
                           <span className="text-slate-500">Gender:</span>
                           <span className="text-slate-800 font-semibold">{formData.gender}</span>
+                          <span className="text-slate-500">State:</span>
+                          <span className="text-slate-800 font-semibold">{formData.state}</span>
+                          <span className="text-slate-500">City:</span>
+                          <span className="text-slate-800 font-semibold">{formData.city}</span>
                         </div>
                       </div>
 
